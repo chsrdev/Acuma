@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Acuma</string>
+    <string name="title_home">Home</string>
+    <string name="title_categories">Categories</string>
+    <string name="title_history">History</string>
+    <string name="add_category">Add category</string>
+</resources>
