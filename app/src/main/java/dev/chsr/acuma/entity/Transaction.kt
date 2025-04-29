@@ -10,5 +10,6 @@ data class Transaction(
     @ColumnInfo("from_id") val fromId: Int?,
     @ColumnInfo("to_id") val toId: Int?,
     val amount: Int,
+    val comment: String?,
     val date: Long,
 )

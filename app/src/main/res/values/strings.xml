@@ -3,5 +3,11 @@
     <string name="title_home">Home</string>
     <string name="title_categories">Categories</string>
     <string name="title_history">History</string>
-    <string name="add_category">Add category</string>
+    <string name="create_category">Create category</string>
+    <string name="transfer_money_between_categories">Transfer money between categories</string>
+    <string name="deposit_money">Deposit money</string>
+    <string name="withdraw_money">Withdraw money</string>
+    <string name="category_name">Category name</string>
+    <string name="goal_optional">Goal (optional)</string>
+    <string name="create">Create</string>
 </resources>

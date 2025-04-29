@@ -34,10 +34,5 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "acuma-database"
-        ).build()
     }
 }

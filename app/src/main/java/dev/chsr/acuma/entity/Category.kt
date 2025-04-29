@@ -5,8 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "categories")
 data class Category(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val name: String,
-    val percent: Float = 0f,
+    val percent: Int = 0,
     val balance: Int = 0,
+    val goal: Int?
 )

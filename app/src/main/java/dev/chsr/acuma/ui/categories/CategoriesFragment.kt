@@ -22,15 +22,15 @@ class CategoriesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        val categoriesViewModel =
-//            ViewModelProvider(this)[CategoriesViewModel::class.java]
-
         _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        val createCategoryButton = binding.createCategoryBtn
 
-//        categoriesViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
+        createCategoryButton.setOnClickListener {
+            val createCategoryBottomSheet = CreateCategoryBottomSheetFragment()
+            createCategoryBottomSheet.show(parentFragmentManager, "createCategoryBottomSheet")
+        }
+
         return root
     }
 
