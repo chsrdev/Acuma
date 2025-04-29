@@ -2,14 +2,13 @@ package dev.chsr.acuma.ui.categories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dev.chsr.acuma.entity.Category
 import dev.chsr.acuma.repository.CategoryRepository
 import kotlinx.coroutines.launch
 
 class CategoriesViewModel(private val categoryRepository: CategoryRepository) : ViewModel() {
-    val allCategories = categoryRepository.getAllCategories().asLiveData()
+    val categories = categoryRepository.getAllCategories()
 
     fun addCategory(category: Category) {
         viewModelScope.launch {

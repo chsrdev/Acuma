@@ -8,5 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#00BCD4</color>
+    <color name="category_item_background">#303030</color>
     <color name="bottom_nav_background">#171717</color>
+    <color name="category_item_progress_background">#171717</color>
+    <color name="category_item_goal_text_color">#354E51</color>
 </resources>
