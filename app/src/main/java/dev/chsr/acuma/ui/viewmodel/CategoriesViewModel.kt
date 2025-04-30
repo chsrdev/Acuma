@@ -1,4 +1,4 @@
-package dev.chsr.acuma.ui.categories
+package dev.chsr.acuma.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +13,18 @@ class CategoriesViewModel(private val categoryRepository: CategoryRepository) : 
     fun addCategory(category: Category) {
         viewModelScope.launch {
             categoryRepository.insertCategory(category)
+        }
+    }
+
+    fun updateCategory(category: Category) {
+        viewModelScope.launch {
+            categoryRepository.updateCategory(category)
+        }
+    }
+
+    fun deleteCategory(category: Category) {
+        viewModelScope.launch {
+            categoryRepository.deleteCategory(category)
         }
     }
 }

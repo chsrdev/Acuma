@@ -10,57 +10,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="16dp"
-        android:text="@string/create_category"
+        android:text="@string/withdraw"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/category_name"
+    <Spinner
+        android:id="@+id/categories_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:hint="@string/category_name"
         android:paddingBottom="16dp"
         android:textSize="14sp" />
 
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/category_goal"
+        android:id="@+id/amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:hint="@string/goal_optional"
+        android:hint="@string/amount"
         android:inputType="numberDecimal"
         android:paddingBottom="16dp"
         android:textSize="14sp" />
 
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/category_percent_slider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:stepSize="1"
-        android:valueFrom="0"
-        android:valueTo="100" />
-
-    <TextView
-        android:id="@+id/category_percent_text"
-        android:layout_width="match_parent"
-        android:textStyle="bold"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:paddingBottom="16dp"
-        android:textColor="?attr/colorPrimary" />
-
-
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/create_category_btn"
+        android:id="@+id/withdraw_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:contentDescription="@string/create"
+        android:contentDescription="@string/withdraw"
         android:textAllCaps="false"
         android:textSize="16sp"
-        android:text="@string/create" />
+        android:text="@string/withdraw" />
 </LinearLayout>

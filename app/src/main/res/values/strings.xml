@@ -10,4 +10,12 @@
     <string name="category_name">Category name</string>
     <string name="goal_optional">Goal (optional)</string>
     <string name="create">Create</string>
+    <string name="deposit">Deposit</string>
+    <string name="amount">Amount</string>
+    <string name="distribute">Distribute</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="transfer">Transfer</string>
+    <string name="edit_category">Edit category</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
 </resources>

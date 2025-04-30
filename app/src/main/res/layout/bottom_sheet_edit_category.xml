@@ -1,16 +1,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@color/bottom_sheet_bg"
-    android:padding="16dp" >
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="16dp"
-        android:text="@string/create_category"
+        android:text="@string/edit_category"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -47,20 +47,30 @@
     <TextView
         android:id="@+id/category_percent_text"
         android:layout_width="match_parent"
-        android:textStyle="bold"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:paddingBottom="16dp"
-        android:textColor="?attr/colorPrimary" />
-
+        android:textColor="?attr/colorPrimary"
+        android:textStyle="bold" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/create_category_btn"
+        android:id="@+id/save_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:contentDescription="@string/create"
+        android:contentDescription="@string/save"
+        android:text="@string/save"
         android:textAllCaps="false"
-        android:textSize="16sp"
-        android:text="@string/create" />
+        android:textSize="16sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/delete_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:contentDescription="@string/delete"
+        android:textColor="@color/delete_text"
+        android:text="@string/delete"
+        android:textAllCaps="false"
+        android:textSize="16sp" />
 </LinearLayout>

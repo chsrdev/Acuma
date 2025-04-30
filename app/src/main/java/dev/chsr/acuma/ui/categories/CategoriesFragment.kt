@@ -1,7 +1,6 @@
 package dev.chsr.acuma.ui.categories
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,8 @@ import dev.chsr.acuma.database.AppDatabase
 import dev.chsr.acuma.databinding.FragmentCategoriesBinding
 import dev.chsr.acuma.repository.CategoryRepository
 import dev.chsr.acuma.ui.categories.adapter.CategoriesAdapter
+import dev.chsr.acuma.ui.viewmodel.CategoriesViewModel
+import dev.chsr.acuma.ui.viewmodel.CategoriesViewModelFactory
 import kotlinx.coroutines.launch
 
 class CategoriesFragment : Fragment() {
@@ -36,19 +37,42 @@ class CategoriesFragment : Fragment() {
         )[CategoriesViewModel::class.java]
         val root: View = binding.root
         val createCategoryButton = binding.createCategoryBtn
+        val depositButton = binding.depositBtn
+        val withdrawButton = binding.withdrawBtn
+        val transferButton = binding.transferBtn
 
         createCategoryButton.setOnClickListener {
             val createCategoryBottomSheet = CreateCategoryBottomSheetFragment()
             createCategoryBottomSheet.show(parentFragmentManager, "createCategoryBottomSheet")
         }
 
-        val categoriesAdapter = CategoriesAdapter()
+        val categoriesAdapter = CategoriesAdapter(parentFragmentManager)
         binding.categoriesList.layoutManager = LinearLayoutManager(requireContext())
         binding.categoriesList.adapter = categoriesAdapter
         viewLifecycleOwner.lifecycleScope.launch {
             categoriesViewmodel.categories.collect { list ->
-                Log.d("categories", list.toString())
                 categoriesAdapter.submitList(list)
+            }
+        }
+
+        depositButton.setOnClickListener {
+            if (categoriesAdapter.itemCount > 0) {
+                val depositBottomSheetFragment = DepositBottomSheetFragment()
+                depositBottomSheetFragment.show(parentFragmentManager, "depositBottomSheet")
+            }
+        }
+
+        withdrawButton.setOnClickListener {
+            if (categoriesAdapter.itemCount > 0) {
+                val withdrawBottomSheetFragment = WithdrawBottomSheetFragment()
+                withdrawBottomSheetFragment.show(parentFragmentManager, "withdrawBottomSheet")
+            }
+        }
+
+        transferButton.setOnClickListener {
+            if (categoriesAdapter.itemCount >= 2) {
+                val transferBottomSheetFragment = TransferBottomSheetFragment()
+                transferBottomSheetFragment.show(parentFragmentManager, "transferBottomSheet")
             }
         }
 
