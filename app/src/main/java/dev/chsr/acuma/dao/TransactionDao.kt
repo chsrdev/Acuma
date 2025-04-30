@@ -13,8 +13,8 @@ interface TransactionDao {
     fun getAll(): Flow<List<Transaction>>
 
     @Insert
-    fun insertAll(vararg transactions: Transaction)
+    suspend fun insertAll(vararg transactions: Transaction)
 
     @Delete
-    fun delete(transaction: Transaction)
+    suspend fun delete(transaction: Transaction)
 }
