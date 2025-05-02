@@ -1,6 +1,7 @@
 package dev.chsr.acuma.ui.categories
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +45,7 @@ class EditCategoryBottomSheetFragment(val category: Category) : BottomSheetDialo
         viewLifecycleOwner.lifecycleScope.launch {
             categoriesViewmodel.categories.collect { list ->
                 val percentSum =
-                    list.sumOf { _category -> if (category != _category && category.id != -1) _category.percent else 0 }
+                        list.sumOf { _category -> if (category.id != _category.id && _category.id != -1) _category.percent else 0 }
                 if (percentSum == 100)
                     categoryPercentSlider.isEnabled = false
                 else
@@ -53,8 +54,12 @@ class EditCategoryBottomSheetFragment(val category: Category) : BottomSheetDialo
         }
         categoryPercentSlider.setValues(category.percent.toFloat())
 
-        if (category.id == -1)
+        val saveButton = binding.saveBtn
+        val deleteButton = binding.deleteBtn
+        if (category.id == -1) {
             categoryPercentSlider.isEnabled = false
+            deleteButton.visibility = View.GONE
+        }
 
         val categoryPercentText = binding.categoryPercentText
 
@@ -63,8 +68,6 @@ class EditCategoryBottomSheetFragment(val category: Category) : BottomSheetDialo
             categoryPercentText.text = "${value.toInt()}%"
         }
 
-        val saveButton = binding.saveBtn
-        val deleteButton = binding.deleteBtn
         saveButton.setOnClickListener {
             val percent = categoryPercentSlider.values[0].toInt()
             val updatedCategoory = Category(
@@ -91,8 +94,6 @@ class EditCategoryBottomSheetFragment(val category: Category) : BottomSheetDialo
             dismiss()
         }
 
-        if (category.id == -1)
-            deleteButton.visibility = View.GONE
 
         deleteButton.setOnClickListener {
             categoriesViewmodel.deleteCategory(category)
