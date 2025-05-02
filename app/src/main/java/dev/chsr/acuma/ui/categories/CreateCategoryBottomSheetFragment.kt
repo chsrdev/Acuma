@@ -41,7 +41,7 @@ class CreateCategoryBottomSheetFragment : BottomSheetDialogFragment() {
         categoryPercentSlider.setValues(0f)
         viewLifecycleOwner.lifecycleScope.launch {
             categoriesViewmodel.categories.collect { list ->
-                val percentSum = list.sumOf { category -> category.percent }
+                val percentSum = list.sumOf { category -> if (category.id != -1) category.percent else 0}
                 if (percentSum == 100)
                     categoryPercentSlider.isEnabled = false
                 else
@@ -57,15 +57,27 @@ class CreateCategoryBottomSheetFragment : BottomSheetDialogFragment() {
 
         val createCategoryButton = binding.createCategoryBtn
         createCategoryButton.setOnClickListener {
+            val percent = categoryPercentSlider.values[0].toInt()
             categoriesViewmodel.addCategory(
                 Category(
                     name = categoryNameText.text.toString(),
                     goal = if (categoryGoalText.text.toString()
                             .isEmpty()
                     ) null else (categoryGoalText.text.toString().toFloat() * 100).toInt(),
-                    percent = categoryPercentSlider.values[0].toInt()
+                    percent = percent
                 )
             )
+            viewLifecycleOwner.lifecycleScope.launch {
+                categoriesViewmodel.getById(-1).collect { category ->
+                    categoriesViewmodel.updateCategory(Category(
+                        id = category.id,
+                        name = category.name,
+                        percent = category.percent - percent,
+                        balance = category.balance,
+                        goal = category.goal
+                    ))
+                }
+            }
             dismiss()
         }
 

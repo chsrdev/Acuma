@@ -18,4 +18,5 @@
     <string name="edit_category">Edit category</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="reserve">Reserve</string>
 </resources>

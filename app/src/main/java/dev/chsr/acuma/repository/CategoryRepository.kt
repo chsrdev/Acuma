@@ -10,6 +10,10 @@ class CategoryRepository(private val categoryDao: CategoryDao) {
         return categoryDao.getAll()
     }
 
+    fun getCategoryById(id: Int): Flow<Category> {
+        return categoryDao.getById(id)
+    }
+
     suspend fun insertCategory(category: Category) {
         categoryDao.insertAll(category)
     }

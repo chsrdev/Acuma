@@ -44,7 +44,7 @@ class EditCategoryBottomSheetFragment(val category: Category) : BottomSheetDialo
         viewLifecycleOwner.lifecycleScope.launch {
             categoriesViewmodel.categories.collect { list ->
                 val percentSum =
-                    list.sumOf { _category -> if (category != _category) _category.percent else 0 }
+                    list.sumOf { _category -> if (category != _category && category.id != -1) _category.percent else 0 }
                 if (percentSum == 100)
                     categoryPercentSlider.isEnabled = false
                 else
@@ -52,6 +52,10 @@ class EditCategoryBottomSheetFragment(val category: Category) : BottomSheetDialo
             }
         }
         categoryPercentSlider.setValues(category.percent.toFloat())
+
+        if (category.id == -1)
+            categoryPercentSlider.isEnabled = false
+
         val categoryPercentText = binding.categoryPercentText
 
         categoryPercentText.text = "${categoryPercentSlider.values[0].toInt()}%"
@@ -62,6 +66,7 @@ class EditCategoryBottomSheetFragment(val category: Category) : BottomSheetDialo
         val saveButton = binding.saveBtn
         val deleteButton = binding.deleteBtn
         saveButton.setOnClickListener {
+            val percent = categoryPercentSlider.values[0].toInt()
             val updatedCategoory = Category(
                 id = category.id,
                 name = categoryNameText.text.toString(),
@@ -69,13 +74,35 @@ class EditCategoryBottomSheetFragment(val category: Category) : BottomSheetDialo
                         .isEmpty()
                 ) null else (categoryGoalText.text.toString().toFloat() * 100).toInt(),
                 balance = category.balance,
-                percent = categoryPercentSlider.values[0].toInt()
+                percent = percent
             )
             categoriesViewmodel.updateCategory(updatedCategoory)
+            viewLifecycleOwner.lifecycleScope.launch {
+                categoriesViewmodel.getById(-1).collect { reserveCategory ->
+                    categoriesViewmodel.updateCategory(Category(
+                        id = reserveCategory.id,
+                        name = reserveCategory.name,
+                        percent = reserveCategory.percent -  (percent - category.percent ),
+                        balance = reserveCategory.balance,
+                        goal = reserveCategory.goal
+                    ))
+                }
+            }
             dismiss()
         }
         deleteButton.setOnClickListener {
             categoriesViewmodel.deleteCategory(category)
+            viewLifecycleOwner.lifecycleScope.launch {
+                categoriesViewmodel.getById(-1).collect { reserveCategory ->
+                    categoriesViewmodel.updateCategory(Category(
+                        id = reserveCategory.id,
+                        name = reserveCategory.name,
+                        percent = reserveCategory.percent + category.percent,
+                        balance = reserveCategory.balance,
+                        goal = reserveCategory.goal
+                    ))
+                }
+            }
             dismiss()
         }
 

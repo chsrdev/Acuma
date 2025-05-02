@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.chsr.acuma.entity.Category
 import dev.chsr.acuma.repository.CategoryRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class CategoriesViewModel(private val categoryRepository: CategoryRepository) : ViewModel() {
@@ -26,6 +27,10 @@ class CategoriesViewModel(private val categoryRepository: CategoryRepository) : 
         viewModelScope.launch {
             categoryRepository.deleteCategory(category)
         }
+    }
+
+    fun getById(id: Int): Flow<Category> {
+        return categoryRepository.getCategoryById(id)
     }
 }
 
