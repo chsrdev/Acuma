@@ -90,6 +90,10 @@ class EditCategoryBottomSheetFragment(val category: Category) : BottomSheetDialo
             }
             dismiss()
         }
+
+        if (category.id == -1)
+            deleteButton.visibility = View.GONE
+
         deleteButton.setOnClickListener {
             categoriesViewmodel.deleteCategory(category)
             viewLifecycleOwner.lifecycleScope.launch {

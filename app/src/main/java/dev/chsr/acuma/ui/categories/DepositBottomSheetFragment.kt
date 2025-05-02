@@ -22,7 +22,7 @@ import dev.chsr.acuma.ui.viewmodel.TransactionsViewModelFactory
 import kotlinx.coroutines.launch
 
 
-class DepositBottomSheetFragment : BottomSheetDialogFragment() {
+class  DepositBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: BottomSheetDepositBinding? = null
     private val binding get() = _binding!!
 
