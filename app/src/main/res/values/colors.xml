@@ -13,5 +13,7 @@
     <color name="category_item_progress_background">#171717</color>
     <color name="category_item_goal_text_color">#354E51</color>
     <color name="bottom_sheet_bg">#171717</color>
+    <color name="deposit_amount_text">#00AA77</color>
+    <color name="withdraw_amount_text">#A44040</color>
     <color name="delete_text">#CB2D2D</color>
 </resources>

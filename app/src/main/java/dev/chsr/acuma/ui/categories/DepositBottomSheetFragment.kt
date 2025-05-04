@@ -75,22 +75,30 @@ class  DepositBottomSheetFragment : BottomSheetDialogFragment() {
 
         depositButton.setOnClickListener {
             val amount = (amountText.text.toString().toFloat() * 100).toInt()
-            val toId: Int?
             if (categoriesSpinner.selectedItemPosition == 0) {
-                toId = null
                 categories.forEach { category ->
-                    val updatedCategory = Category(
-                        category.id,
-                        category.name,
-                        category.percent,
-                        category.balance + amount*category.percent/100,
-                        category.goal
-                    )
-                    categoriesViewmodel.updateCategory(updatedCategory)
+                    if (amount * category.percent / 100 > 0) {
+                        val updatedCategory = Category(
+                            category.id,
+                            category.name,
+                            category.percent,
+                            category.balance + amount * category.percent / 100,
+                            category.goal
+                        )
+                        categoriesViewmodel.updateCategory(updatedCategory)
+                        transactionsViewmodel.addTransaction(
+                            Transaction(
+                                fromId = null,
+                                toId = category.id,
+                                amount = amount * category.percent / 100,
+                                comment = "",
+                                date = System.currentTimeMillis()
+                            )
+                        )
+                    }
                 }
             } else {
                 val selected = categories[categoriesSpinner.selectedItemPosition - 1]
-                toId = selected.id
                 val updatedCategory = Category(
                     selected.id,
                     selected.name,
@@ -99,15 +107,14 @@ class  DepositBottomSheetFragment : BottomSheetDialogFragment() {
                     selected.goal
                 )
                 categoriesViewmodel.updateCategory(updatedCategory)
+                transactionsViewmodel.addTransaction(Transaction(
+                    fromId = null,
+                    toId = selected.id,
+                    amount = amount,
+                    comment = "",
+                    date = System.currentTimeMillis()
+                ))
             }
-
-            transactionsViewmodel.addTransaction(Transaction(
-                fromId = null,
-                toId = toId,
-                amount = amount,
-                comment = "",
-                date = System.currentTimeMillis()
-            ))
 
             dismiss()
         }

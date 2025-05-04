@@ -1,7 +1,6 @@
 package dev.chsr.acuma.ui.categories
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +45,7 @@ class EditCategoryBottomSheetFragment(val category: Category) : BottomSheetDialo
             categoriesViewmodel.categories.collect { list ->
                 val percentSum =
                         list.sumOf { _category -> if (category.id != _category.id && _category.id != -1) _category.percent else 0 }
-                if (percentSum == 100)
+                if (percentSum >= 100)
                     categoryPercentSlider.isEnabled = false
                 else
                     categoryPercentSlider.valueTo = 100f - percentSum
