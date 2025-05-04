@@ -1,6 +1,8 @@
 package dev.chsr.acuma.ui.categories
 
 import android.os.Bundle
+import android.os.Debug
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -90,8 +92,6 @@ class TransferBottomSheetFragment : BottomSheetDialogFragment() {
         transferButton.setOnClickListener {
             val amount = (amountText.text.toString().toFloat() * 100).toInt()
             val category1 = categories[categoriesSpinner1.selectedItemPosition]
-            val toId: Int?
-            if (category1.balance < amount) return@setOnClickListener
 
             val updatedCategory1 = Category(
                 category1.id,
@@ -103,10 +103,11 @@ class TransferBottomSheetFragment : BottomSheetDialogFragment() {
             categoriesViewmodel.updateCategory(updatedCategory1)
 
             if (categoriesSpinner2.selectedItemPosition == 0) {
-                toId = null
+                var percentSum = 0
                 categories.forEach { category ->
                     if (categories.indexOf(category) != categoriesSpinner1.selectedItemPosition) {
                         if (amount * category.percent / 100 != 0) {
+                            percentSum += amount * category.percent / 1000
                             val updatedCategory2 = Category(
                                 category.id,
                                 category.name,
@@ -118,8 +119,32 @@ class TransferBottomSheetFragment : BottomSheetDialogFragment() {
                             transactionsViewmodel.addTransaction(
                                 Transaction(
                                     fromId = category1.id,
-                                    toId = toId,
+                                    toId = category.id,
                                     amount = amount * category.percent / 100,
+                                    comment = binding.comment.text.toString(),
+                                    date = System.currentTimeMillis()
+                                )
+                            )
+                        }
+                    }
+                }
+                Log.d("percent", percentSum.toString())
+                if (percentSum < 100) {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        categoriesViewmodel.getById(-1).collect { reserve ->
+                            val updatedReserve = Category(
+                                reserve.id,
+                                reserve.name,
+                                reserve.percent,
+                                reserve.balance + amount * (100 - percentSum) / 100,
+                                reserve.goal
+                            )
+                            categoriesViewmodel.updateCategory(updatedReserve)
+                            transactionsViewmodel.addTransaction(
+                                Transaction(
+                                    fromId = category1.id,
+                                    toId = reserve.id,
+                                    amount = amount * (100 - percentSum) / 100,
                                     comment = binding.comment.text.toString(),
                                     date = System.currentTimeMillis()
                                 )
@@ -129,7 +154,6 @@ class TransferBottomSheetFragment : BottomSheetDialogFragment() {
                 }
             } else {
                 val category2 = categories[categoriesSpinner2.selectedItemPosition - 1]
-                toId = category2.id
                 val updatedCategory2 = Category(
                     category2.id,
                     category2.name,
@@ -138,17 +162,18 @@ class TransferBottomSheetFragment : BottomSheetDialogFragment() {
                     category2.goal
                 )
                 categoriesViewmodel.updateCategory(updatedCategory2)
+
+                transactionsViewmodel.addTransaction(
+                    Transaction(
+                        fromId = category1.id,
+                        toId = category2.id,
+                        amount = amount,
+                        comment = binding.comment.text.toString(),
+                        date = System.currentTimeMillis()
+                    )
+                )
             }
 
-            transactionsViewmodel.addTransaction(
-                Transaction(
-                    fromId = category1.id,
-                    toId = toId,
-                    amount = amount,
-                    comment = binding.comment.text.toString(),
-                    date = System.currentTimeMillis()
-                )
-            )
 
             dismiss()
         }
