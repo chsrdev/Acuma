@@ -36,7 +36,7 @@ class HistoryFragment : Fragment() {
                 )
             )
         )[TransactionsViewModel::class.java]
-        val transactionsAdapter = TransactionsAdapter(parentFragmentManager, this)
+        val transactionsAdapter = TransactionsAdapter(this)
         binding.transactionsList.layoutManager = LinearLayoutManager(requireContext())
         binding.transactionsList.adapter = transactionsAdapter
         viewLifecycleOwner.lifecycleScope.launch {

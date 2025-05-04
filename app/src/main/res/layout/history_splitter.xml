@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="2dp"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp">
+
+    <View
+        android:id="@+id/left_line"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="8dp"
+        android:backgroundTint="@android:color/darker_gray"
+        app:layout_constraintEnd_toStartOf="@id/date_text"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/date_text"
+        android:layout_width="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/left_line"
+        android:backgroundTint="@android:color/darker_gray"
+        app:layout_constraintEnd_toStartOf="@id/right_line"
+        android:layout_height="match_parent" />
+
+    <View
+        android:id="@+id/right_line"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="8dp"
+        android:backgroundTint="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/date_text" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -89,7 +89,7 @@ class WithdrawBottomSheetFragment : BottomSheetDialogFragment() {
                     fromId = selected.id,
                     toId = null,
                     amount = amount,
-                    comment = "",
+                    comment = binding.comment.text.toString(),
                     date = System.currentTimeMillis()
                 )
             )

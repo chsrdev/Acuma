@@ -106,14 +106,25 @@ class TransferBottomSheetFragment : BottomSheetDialogFragment() {
                 toId = null
                 categories.forEach { category ->
                     if (categories.indexOf(category) != categoriesSpinner1.selectedItemPosition) {
-                        val updatedCategory2 = Category(
-                            category.id,
-                            category.name,
-                            category.percent,
-                            category.balance + amount * category.percent / 100,
-                            category.goal
-                        )
-                        categoriesViewmodel.updateCategory(updatedCategory2)
+                        if (amount * category.percent / 100 != 0) {
+                            val updatedCategory2 = Category(
+                                category.id,
+                                category.name,
+                                category.percent,
+                                category.balance + amount * category.percent / 100,
+                                category.goal
+                            )
+                            categoriesViewmodel.updateCategory(updatedCategory2)
+                            transactionsViewmodel.addTransaction(
+                                Transaction(
+                                    fromId = category1.id,
+                                    toId = toId,
+                                    amount = amount * category.percent / 100,
+                                    comment = binding.comment.text.toString(),
+                                    date = System.currentTimeMillis()
+                                )
+                            )
+                        }
                     }
                 }
             } else {
@@ -134,7 +145,7 @@ class TransferBottomSheetFragment : BottomSheetDialogFragment() {
                     fromId = category1.id,
                     toId = toId,
                     amount = amount,
-                    comment = "",
+                    comment = binding.comment.text.toString(),
                     date = System.currentTimeMillis()
                 )
             )

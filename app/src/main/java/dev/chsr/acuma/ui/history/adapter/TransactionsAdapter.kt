@@ -1,8 +1,8 @@
 package dev.chsr.acuma.ui.history.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +18,7 @@ import dev.chsr.acuma.ui.viewmodel.CategoriesViewModel
 import dev.chsr.acuma.ui.viewmodel.CategoriesViewModelFactory
 import kotlinx.coroutines.launch
 
-class TransactionsAdapter(val fragmentManager: FragmentManager, val owner: HistoryFragment) :
+class TransactionsAdapter(private val owner: HistoryFragment) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var transactions: List<Transaction> = emptyList()
@@ -38,6 +38,12 @@ class TransactionsAdapter(val fragmentManager: FragmentManager, val owner: Histo
         fun bind(item: ListItem.DepositItem) {
             binding.category.text = item.category.name
             binding.amount.text = "+${item.transaction.amount / 100f}"
+            if (item.transaction.comment != "") {
+                binding.comment.text = item.transaction.comment
+            } else {
+                binding.line.visibility = View.GONE
+                binding.comment.visibility = View.GONE
+            }
         }
     }
 
@@ -46,6 +52,12 @@ class TransactionsAdapter(val fragmentManager: FragmentManager, val owner: Histo
         fun bind(item: ListItem.WithdrawItem) {
             binding.category.text = item.category.name
             binding.amount.text = "-${item.transaction.amount / 100f}"
+            if (item.transaction.comment != "") {
+                binding.comment.text = item.transaction.comment
+            } else {
+                binding.line.visibility = View.GONE
+                binding.comment.visibility = View.GONE
+            }
         }
     }
 
@@ -55,6 +67,12 @@ class TransactionsAdapter(val fragmentManager: FragmentManager, val owner: Histo
             binding.fromCategory.text = item.fromCategory.name
             binding.toCategory.text = item.toCategory.name
             binding.amount.text = (item.transaction.amount / 100f).toString()
+            if (item.transaction.comment != "") {
+                binding.comment.text = item.transaction.comment
+            } else {
+                binding.line.visibility = View.GONE
+                binding.comment.visibility = View.GONE
+            }
         }
     }
 
@@ -114,6 +132,10 @@ class TransactionsAdapter(val fragmentManager: FragmentManager, val owner: Histo
                 )
             )
         )[CategoriesViewModel::class.java]
+
+//        val dt = Instant.ofEpochSecond(transaction.date)
+//            .atZone(ZoneId.systemDefault())
+//            .toLocalDateTime()
 
         if (transaction.fromId == null && transaction.toId != null)
             owner.viewLifecycleOwner.lifecycleScope.launch {

@@ -77,7 +77,7 @@ class  DepositBottomSheetFragment : BottomSheetDialogFragment() {
             val amount = (amountText.text.toString().toFloat() * 100).toInt()
             if (categoriesSpinner.selectedItemPosition == 0) {
                 categories.forEach { category ->
-                    if (amount * category.percent / 100 > 0) {
+                    if (amount * category.percent / 100 != 0) {
                         val updatedCategory = Category(
                             category.id,
                             category.name,
@@ -91,7 +91,7 @@ class  DepositBottomSheetFragment : BottomSheetDialogFragment() {
                                 fromId = null,
                                 toId = category.id,
                                 amount = amount * category.percent / 100,
-                                comment = "",
+                                comment = binding.comment.text.toString(),
                                 date = System.currentTimeMillis()
                             )
                         )
@@ -111,7 +111,7 @@ class  DepositBottomSheetFragment : BottomSheetDialogFragment() {
                     fromId = null,
                     toId = selected.id,
                     amount = amount,
-                    comment = "",
+                    comment = binding.comment.text.toString(),
                     date = System.currentTimeMillis()
                 ))
             }
