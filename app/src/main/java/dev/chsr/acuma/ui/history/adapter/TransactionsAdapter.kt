@@ -40,6 +40,8 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
             binding.amount.text = "+${item.transaction.amount / 100f}"
             if (item.transaction.comment != "") {
                 binding.comment.text = item.transaction.comment
+                binding.line.visibility = View.VISIBLE
+                binding.comment.visibility = View.VISIBLE
             } else {
                 binding.line.visibility = View.GONE
                 binding.comment.visibility = View.GONE
@@ -54,6 +56,8 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
             binding.amount.text = "-${item.transaction.amount / 100f}"
             if (item.transaction.comment != "") {
                 binding.comment.text = item.transaction.comment
+                binding.line.visibility = View.VISIBLE
+                binding.comment.visibility = View.VISIBLE
             } else {
                 binding.line.visibility = View.GONE
                 binding.comment.visibility = View.GONE
@@ -69,6 +73,8 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
             binding.amount.text = (item.transaction.amount / 100f).toString()
             if (item.transaction.comment != "") {
                 binding.comment.text = item.transaction.comment
+                binding.line.visibility = View.VISIBLE
+                binding.comment.visibility = View.VISIBLE
             } else {
                 binding.line.visibility = View.GONE
                 binding.comment.visibility = View.GONE
