@@ -7,19 +7,6 @@
     android:paddingBottom="56dp"
     tools:context=".ui.categories.CategoriesFragment">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/create_category_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:contentDescription="@string/create_category"
-        android:text="@string/create_category"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categories_list"
         android:layout_width="match_parent"
@@ -28,7 +15,21 @@
         android:layout_marginVertical="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/create_category_btn" />
+        app:layout_constraintBottom_toTopOf="@id/deposit_btn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/create_category_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/create_category"
+        android:backgroundTint="?attr/colorPrimary"
+        android:src="@drawable/ic_plus"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/deposit_btn"

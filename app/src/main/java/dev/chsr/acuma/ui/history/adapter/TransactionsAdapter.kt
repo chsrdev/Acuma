@@ -17,6 +17,7 @@ import dev.chsr.acuma.ui.history.HistoryFragment
 import dev.chsr.acuma.ui.viewmodel.CategoriesViewModel
 import dev.chsr.acuma.ui.viewmodel.CategoriesViewModelFactory
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class TransactionsAdapter(private val owner: HistoryFragment) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -139,9 +140,6 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
             )
         )[CategoriesViewModel::class.java]
 
-//        val dt = Instant.ofEpochSecond(transaction.date)
-//            .atZone(ZoneId.systemDefault())
-//            .toLocalDateTime()
 
         if (transaction.fromId == null && transaction.toId != null)
             owner.viewLifecycleOwner.lifecycleScope.launch {
@@ -160,10 +158,10 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
                     )
                 }
             }
-        else
+        else if (transaction.fromId != null && transaction.toId != null)
             owner.viewLifecycleOwner.lifecycleScope.launch {
-                categoriesViewmodel.getById(transaction.fromId!!).collect { fromCategory ->
-                    categoriesViewmodel.getById(transaction.toId!!).collect { toCategory ->
+                categoriesViewmodel.getById(transaction.fromId).collect { fromCategory ->
+                    categoriesViewmodel.getById(transaction.toId).collect { toCategory ->
                         (holder as TransferViewHolder).bind(
                             ListItem.TransferItem(
                                 transaction,
