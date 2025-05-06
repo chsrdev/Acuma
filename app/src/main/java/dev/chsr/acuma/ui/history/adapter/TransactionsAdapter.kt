@@ -25,22 +25,42 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Date
 import java.util.Locale
+
+fun Long.toLocalDateTime(): LocalDateTime {
+    return LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
+}
+
+fun LocalDateTime.formatDate(context: Context): String {
+    val locale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
+        ?: Locale.getDefault()
+    val formatter = DateTimeFormatter.ofPattern("d MMMM", locale)
+    return this.format(formatter)
+}
+
+fun LocalDateTime.formatTime(context: Context): String {
+    val locale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
+        ?: Locale.getDefault()
+    val formatter = DateTimeFormatter.ofPattern("HH:mm", locale)
+    return this.format(formatter)
+}
 
 class TransactionsAdapter(private val owner: HistoryFragment) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: List<ListItem> = emptyList()
 
-    fun Long.toLocalDateTime(): LocalDateTime {
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
-    }
-
-    fun LocalDateTime.formatLocalized(context: Context): String {
+    fun LocalDateTime.formatDate(context: Context): String {
         val locale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
             ?: Locale.getDefault()
         val formatter = DateTimeFormatter.ofPattern("d MMMM", locale)
+        return this.format(formatter)
+    }
+
+    fun LocalDateTime.formatTime(context: Context): String {
+        val locale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
+            ?: Locale.getDefault()
+        val formatter = DateTimeFormatter.ofPattern("HH:mm", locale)
         return this.format(formatter)
     }
 
@@ -66,7 +86,7 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
         var lastDate: String? = null
 
         for (tx in sorted) {
-            val dateStr = tx.date.toLocalDateTime().formatLocalized(owner.requireContext())
+            val dateStr = tx.date.toLocalDateTime().formatDate(owner.requireContext())
 
             if (dateStr != lastDate) {
                 result.add(ListItem.DateHeader(dateStr))
@@ -184,12 +204,13 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
             dateText.text = item.date
         }
     }
-    
+
     class DepositViewHolder(val binding: HistoryDepositItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ListItem.DepositItem) {
             binding.category.text = item.category.name
             binding.amount.text = "+${item.transaction.amount / 100f}"
+            binding.time.text = item.transaction.date.toLocalDateTime().formatTime(binding.root.context)
             if (item.transaction.comment != "") {
                 binding.comment.text = item.transaction.comment
                 binding.line.visibility = View.VISIBLE
@@ -206,6 +227,7 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
         fun bind(item: ListItem.WithdrawItem) {
             binding.category.text = item.category.name
             binding.amount.text = "-${item.transaction.amount / 100f}"
+            binding.time.text = item.transaction.date.toLocalDateTime().formatTime(binding.root.context)
             if (item.transaction.comment != "") {
                 binding.comment.text = item.transaction.comment
                 binding.line.visibility = View.VISIBLE
@@ -223,6 +245,7 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
             binding.fromCategory.text = item.fromCategory.name
             binding.toCategory.text = item.toCategory.name
             binding.amount.text = (item.transaction.amount / 100f).toString()
+            binding.time.text = item.transaction.date.toLocalDateTime().formatTime(binding.root.context)
             if (item.transaction.comment != "") {
                 binding.comment.text = item.transaction.comment
                 binding.line.visibility = View.VISIBLE
