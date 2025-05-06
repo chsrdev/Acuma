@@ -52,6 +52,8 @@ class CategoriesFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             categoriesViewmodel.categories.collect { list ->
                 categoriesAdapter.submitList(list)
+                binding.sumText.text =
+                    (list.sumOf { category -> category.balance } / 100f).toString()
             }
         }
 

@@ -2,33 +2,42 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="2dp"
+    android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp">
+    android:layout_marginVertical="8dp"
+    android:minHeight="24dp">
 
     <View
         android:id="@+id/left_line"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="8dp"
-        android:backgroundTint="@android:color/darker_gray"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toStartOf="@id/date_text"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0" />
 
     <TextView
         android:id="@+id/date_text"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
+        android:paddingHorizontal="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/left_line"
-        android:backgroundTint="@android:color/darker_gray"
-        app:layout_constraintEnd_toStartOf="@id/right_line"
-        android:layout_height="match_parent" />
+        app:layout_constraintEnd_toStartOf="@id/right_line" />
 
     <View
         android:id="@+id/right_line"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="8dp"
-        android:backgroundTint="@android:color/darker_gray"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintStart_toEndOf="@id/date_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/date_text" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
