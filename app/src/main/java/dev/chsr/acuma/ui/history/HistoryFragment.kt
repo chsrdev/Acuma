@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dev.chsr.acuma.database.AppDatabase
 import dev.chsr.acuma.databinding.FragmentHistoryBinding
 import dev.chsr.acuma.repository.TransactionRepository
@@ -44,6 +45,20 @@ class HistoryFragment : Fragment() {
                 transactionsAdapter.submitList(list)
             }
         }
+
+        val filterButton = binding.filterBtn
+        binding.transactionsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (dy > 0 && filterButton.isShown) {
+                    filterButton.hide()
+                } else if (dy < 0 && !filterButton.isShown) {
+                    filterButton.show()
+                }
+            }
+        })
+
 
         return root
     }

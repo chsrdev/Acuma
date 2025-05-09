@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dev.chsr.acuma.database.AppDatabase
 import dev.chsr.acuma.databinding.FragmentCategoriesBinding
 import dev.chsr.acuma.repository.CategoryRepository
@@ -77,6 +78,25 @@ class CategoriesFragment : Fragment() {
                 transferBottomSheetFragment.show(parentFragmentManager, "transferBottomSheet")
             }
         }
+
+
+        binding.categoriesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (dy > 0) {
+                    depositButton.hide()
+                    withdrawButton.hide()
+                    transferButton.hide()
+                    createCategoryButton.hide()
+                } else if (dy < 0) {
+                    depositButton.show()
+                    withdrawButton.show()
+                    transferButton.show()
+                    createCategoryButton.show()
+                }
+            }
+        })
 
         return root
     }

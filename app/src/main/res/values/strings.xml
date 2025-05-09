@@ -20,4 +20,5 @@
     <string name="delete">Delete</string>
     <string name="reserve">Reserve</string>
     <string name="comment">Comment</string>
+    <string name="filter">Filter</string>
 </resources>
