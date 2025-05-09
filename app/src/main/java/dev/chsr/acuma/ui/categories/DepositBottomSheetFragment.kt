@@ -1,6 +1,7 @@
 package dev.chsr.acuma.ui.categories
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,7 @@ import dev.chsr.acuma.ui.viewmodel.TransactionsViewModelFactory
 import kotlinx.coroutines.launch
 
 
-class  DepositBottomSheetFragment : BottomSheetDialogFragment() {
+class DepositBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: BottomSheetDepositBinding? = null
     private val binding get() = _binding!!
 
@@ -55,10 +56,10 @@ class  DepositBottomSheetFragment : BottomSheetDialogFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             categoriesViewmodel.categories.collect { list ->
-                categories = list
+                categories = list.filter { category -> category.deleted == 0 }
 
                 val names = mutableListOf(getString(R.string.distribute))
-                names.addAll(list.map { it.name })
+                names.addAll(categories.map { it.name })
 
                 val spinnerAdapter = ArrayAdapter(
                     requireContext(),
@@ -107,13 +108,15 @@ class  DepositBottomSheetFragment : BottomSheetDialogFragment() {
                     selected.goal
                 )
                 categoriesViewmodel.updateCategory(updatedCategory)
-                transactionsViewmodel.addTransaction(Transaction(
-                    fromId = null,
-                    toId = selected.id,
-                    amount = amount,
-                    comment = binding.comment.text.toString(),
-                    date = System.currentTimeMillis()
-                ))
+                transactionsViewmodel.addTransaction(
+                    Transaction(
+                        fromId = null,
+                        toId = selected.id,
+                        amount = amount,
+                        comment = binding.comment.text.toString(),
+                        date = System.currentTimeMillis()
+                    )
+                )
             }
 
             dismiss()

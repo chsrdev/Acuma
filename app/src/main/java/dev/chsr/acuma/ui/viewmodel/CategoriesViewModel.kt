@@ -23,9 +23,9 @@ class CategoriesViewModel(private val categoryRepository: CategoryRepository) : 
         }
     }
 
-    fun deleteCategory(category: Category) {
+    fun setDeletedCategory(id: Int, value: Int) {
         viewModelScope.launch {
-            categoryRepository.deleteCategory(category)
+            categoryRepository.setDeleted(id, value)
         }
     }
 

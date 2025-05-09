@@ -15,7 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Category::class, Transaction::class], version = 2)
+@Database(entities = [Category::class, Transaction::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
     abstract fun transactionDao(): TransactionDao
@@ -39,6 +39,12 @@ abstract class AppDatabase : RoomDatabase() {
 
                 db.execSQL("DROP TABLE transactions")
                 db.execSQL("ALTER TABLE transactions_temp RENAME TO transactions")
+            }
+        }
+
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE categories ADD COLUMN deleted INTEGER NOT NULL DEFAULT 0")
             }
         }
 
@@ -68,7 +74,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "acuma-database"
-                ).addMigrations(MIGRATION_1_2).addCallback(roomCallback).build()
+                ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).addCallback(roomCallback).build()
                 INSTANCE = instance
                 instance
             }

@@ -9,5 +9,6 @@ data class Category(
     val name: String,
     val percent: Int = 0,
     val balance: Int = 0,
-    val goal: Int?
+    val goal: Int?,
+    val deleted: Int = 0
 )

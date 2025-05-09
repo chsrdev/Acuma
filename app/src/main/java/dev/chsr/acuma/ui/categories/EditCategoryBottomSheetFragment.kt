@@ -95,8 +95,15 @@ class EditCategoryBottomSheetFragment(val category: Category) : BottomSheetDialo
 
 
         deleteButton.setOnClickListener {
-            categoriesViewmodel.deleteCategory(category)
             viewLifecycleOwner.lifecycleScope.launch {
+                categoriesViewmodel.updateCategory(Category(
+                    id = category.id,
+                    name = category.name,
+                    percent = 0,
+                    balance = 0,
+                    goal = null
+                ))
+                categoriesViewmodel.setDeletedCategory(category.id, 1)
                 categoriesViewmodel.getById(-1).collect { reserveCategory ->
                     categoriesViewmodel.updateCategory(Category(
                         id = reserveCategory.id,

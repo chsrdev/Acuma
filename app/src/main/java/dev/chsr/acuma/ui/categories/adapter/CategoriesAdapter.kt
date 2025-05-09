@@ -27,7 +27,7 @@ class CategoriesAdapter(val fragmentManager: FragmentManager) :
 
     private var categories: List<Category> = emptyList()
     fun submitList(newList: List<Category>) {
-        categories = newList
+        categories = newList.filter { category -> category.deleted == 0 }
         notifyDataSetChanged()
     }
 

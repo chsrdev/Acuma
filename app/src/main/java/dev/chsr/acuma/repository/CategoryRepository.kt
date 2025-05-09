@@ -14,6 +14,8 @@ class CategoryRepository(private val categoryDao: CategoryDao) {
         return categoryDao.getById(id)
     }
 
+
+
     suspend fun insertCategory(category: Category) {
         categoryDao.insertAll(category)
     }
@@ -22,7 +24,7 @@ class CategoryRepository(private val categoryDao: CategoryDao) {
         categoryDao.update(category)
     }
 
-    suspend fun deleteCategory(category: Category) {
-        categoryDao.delete(category)
+    suspend fun setDeleted(id: Int, value: Int) {
+        categoryDao.setDeleted(id, value)
     }
 }

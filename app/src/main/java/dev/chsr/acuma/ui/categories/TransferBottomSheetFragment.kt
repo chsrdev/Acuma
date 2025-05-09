@@ -58,10 +58,10 @@ class TransferBottomSheetFragment : BottomSheetDialogFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             categoriesViewmodel.categories.collect { list ->
-                categories = list
+                categories = list.filter { category -> category.deleted == 0 }
 
                 val names = mutableListOf<String>()
-                names.addAll(list.map { it.name })
+                names.addAll(categories.map { it.name })
 
                 val spinnerAdapter1 = ArrayAdapter(
                     requireContext(),

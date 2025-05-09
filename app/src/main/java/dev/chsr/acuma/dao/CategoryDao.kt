@@ -16,11 +16,11 @@ interface CategoryDao {
     @Query("SELECT * FROM categories WHERE id = :id")
     fun getById(id: Int): Flow<Category>
 
+    @Query("UPDATE categories SET deleted=:value WHERE id=:id")
+    suspend fun setDeleted(id: Int, value: Int)
+
     @Insert
     suspend fun insertAll(vararg categories: Category)
-
-    @Delete
-    suspend fun delete(category: Category)
 
     @Update
     suspend fun update(category: Category)

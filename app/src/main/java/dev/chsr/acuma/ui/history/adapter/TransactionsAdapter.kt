@@ -68,7 +68,12 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
         data class DateHeader(val date: String) : ListItem()
         data class DepositItem(val transaction: Transaction, val category: Category) : ListItem()
         data class WithdrawItem(val transaction: Transaction, val category: Category) : ListItem()
-        data class TransferItem(val transaction: Transaction, val fromCategory: Category, val toCategory: Category) : ListItem()
+        data class TransferItem(
+            val transaction: Transaction,
+            val fromCategory: Category,
+            val toCategory: Category
+        ) : ListItem()
+
         data class RawTransaction(val transaction: Transaction) : ListItem()
     }
 
@@ -112,6 +117,7 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
                 else if (tx.toId == null) TYPE_WITHDRAW
                 else TYPE_TRANSFER
             }
+
             else -> throw IllegalStateException("Unexpected item: $item")
         }
     }
@@ -184,11 +190,11 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
                         }
                     } else if (tx.fromId != null && tx.toId != null) {
                         categoriesViewmodel.getById(tx.fromId).collect { fromCategory ->
-                            categoriesViewmodel.getById(tx.toId).collect { toCategory ->
-                                (holder as TransferViewHolder).bind(
-                                    ListItem.TransferItem(tx, fromCategory, toCategory)
-                                )
-                            }
+                                categoriesViewmodel.getById(tx.toId).collect { toCategory ->
+                                        (holder as TransferViewHolder).bind(
+                                            ListItem.TransferItem(tx, fromCategory, toCategory)
+                                        )
+                                }
                         }
                     }
                 }
@@ -210,7 +216,8 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
         fun bind(item: ListItem.DepositItem) {
             binding.category.text = item.category.name
             binding.amount.text = "+${item.transaction.amount / 100f}"
-            binding.time.text = item.transaction.date.toLocalDateTime().formatTime(binding.root.context)
+            binding.time.text =
+                item.transaction.date.toLocalDateTime().formatTime(binding.root.context)
             if (item.transaction.comment != "") {
                 binding.comment.text = item.transaction.comment
                 binding.line.visibility = View.VISIBLE
@@ -227,7 +234,8 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
         fun bind(item: ListItem.WithdrawItem) {
             binding.category.text = item.category.name
             binding.amount.text = "-${item.transaction.amount / 100f}"
-            binding.time.text = item.transaction.date.toLocalDateTime().formatTime(binding.root.context)
+            binding.time.text =
+                item.transaction.date.toLocalDateTime().formatTime(binding.root.context)
             if (item.transaction.comment != "") {
                 binding.comment.text = item.transaction.comment
                 binding.line.visibility = View.VISIBLE
@@ -245,7 +253,8 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
             binding.fromCategory.text = item.fromCategory.name
             binding.toCategory.text = item.toCategory.name
             binding.amount.text = (item.transaction.amount / 100f).toString()
-            binding.time.text = item.transaction.date.toLocalDateTime().formatTime(binding.root.context)
+            binding.time.text =
+                item.transaction.date.toLocalDateTime().formatTime(binding.root.context)
             if (item.transaction.comment != "") {
                 binding.comment.text = item.transaction.comment
                 binding.line.visibility = View.VISIBLE
