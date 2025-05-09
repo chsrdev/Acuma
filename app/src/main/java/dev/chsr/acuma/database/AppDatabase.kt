@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
+import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.db.SupportSQLiteDatabase
 import dev.chsr.acuma.R
 import dev.chsr.acuma.dao.CategoryDao
@@ -48,7 +49,6 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
@@ -74,7 +74,8 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "acuma-database"
-                ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3).addCallback(roomCallback).build()
+                ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3)
+                    .addCallback(roomCallback).build()
                 INSTANCE = instance
                 instance
             }
