@@ -121,14 +121,13 @@ class TransferBottomSheetFragment : BottomSheetDialogFragment() {
                                     fromId = category1.id,
                                     toId = category.id,
                                     amount = amount * category.percent / 100,
-                                    comment = binding.comment.text.toString(),
+                                    comment = binding.comment.text.toString() + " (Distribute ${amount/100})",
                                     date = System.currentTimeMillis()
                                 )
                             )
                         }
                     }
                 }
-                Log.d("percent", percentSum.toString())
                 if (percentSum < 100) {
                     viewLifecycleOwner.lifecycleScope.launch {
                         categoriesViewmodel.getById(-1).collect { reserve ->
@@ -145,7 +144,7 @@ class TransferBottomSheetFragment : BottomSheetDialogFragment() {
                                     fromId = category1.id,
                                     toId = reserve.id,
                                     amount = amount * (100 - percentSum) / 100,
-                                    comment = binding.comment.text.toString(),
+                                    comment = binding.comment.text.toString() + " (Distribute ${amount/100})",
                                     date = System.currentTimeMillis()
                                 )
                             )

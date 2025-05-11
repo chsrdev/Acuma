@@ -50,20 +50,6 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
 
     private var items: List<ListItem> = emptyList()
 
-    fun LocalDateTime.formatDate(context: Context): String {
-        val locale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
-            ?: Locale.getDefault()
-        val formatter = DateTimeFormatter.ofPattern("d MMMM", locale)
-        return this.format(formatter)
-    }
-
-    fun LocalDateTime.formatTime(context: Context): String {
-        val locale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
-            ?: Locale.getDefault()
-        val formatter = DateTimeFormatter.ofPattern("HH:mm", locale)
-        return this.format(formatter)
-    }
-
     sealed class ListItem {
         data class DateHeader(val date: String) : ListItem()
         data class DepositItem(val transaction: Transaction, val category: Category) : ListItem()
@@ -104,7 +90,6 @@ class TransactionsAdapter(private val owner: HistoryFragment) :
         items = result
         notifyDataSetChanged()
     }
-
 
     override fun getItemCount(): Int = items.size
 

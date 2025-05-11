@@ -29,6 +29,12 @@ class CategoriesViewModel(private val categoryRepository: CategoryRepository) : 
         }
     }
 
+    fun setCategoryPercent(id: Int, value: Int){
+        viewModelScope.launch {
+            categoryRepository.setPercent(id, value)
+        }
+    }
+
     fun getById(id: Int): Flow<Category> {
         return categoryRepository.getCategoryById(id)
     }

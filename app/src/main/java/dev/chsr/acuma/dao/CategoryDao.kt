@@ -19,6 +19,9 @@ interface CategoryDao {
     @Query("UPDATE categories SET deleted=:value WHERE id=:id")
     suspend fun setDeleted(id: Int, value: Int)
 
+    @Query("UPDATE categories SET percent=:value WHERE id=:id")
+    suspend fun setPercent(id: Int, value: Int)
+
     @Insert
     suspend fun insertAll(vararg categories: Category)
 

@@ -5,6 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.chsr.acuma.entity.Transaction
 import dev.chsr.acuma.repository.TransactionRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class TransactionsViewModel(private val transactionRepository: TransactionRepository) : ViewModel() {
@@ -13,12 +17,6 @@ class TransactionsViewModel(private val transactionRepository: TransactionReposi
     fun addTransaction(transaction: Transaction) {
         viewModelScope.launch {
             transactionRepository.insertTransaction(transaction)
-        }
-    }
-
-    fun deleteTransaction(transaction: Transaction) {
-        viewModelScope.launch {
-            transactionRepository.deleteTransaction(transaction)
         }
     }
 }

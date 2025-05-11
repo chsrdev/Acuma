@@ -1,12 +1,15 @@
 package dev.chsr.acuma.ui.history
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.chsr.acuma.database.AppDatabase
@@ -15,7 +18,9 @@ import dev.chsr.acuma.repository.TransactionRepository
 import dev.chsr.acuma.ui.history.adapter.TransactionsAdapter
 import dev.chsr.acuma.ui.viewmodel.TransactionsViewModel
 import dev.chsr.acuma.ui.viewmodel.TransactionsViewModelFactory
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.logging.Filter
 
 class HistoryFragment : Fragment() {
     private var _binding: FragmentHistoryBinding? = null
@@ -41,23 +46,27 @@ class HistoryFragment : Fragment() {
         binding.transactionsList.layoutManager = LinearLayoutManager(requireContext())
         binding.transactionsList.adapter = transactionsAdapter
         viewLifecycleOwner.lifecycleScope.launch {
-            transactionsViewmodel.transactions.collect { list ->
-                transactionsAdapter.submitList(list)
+            transactionsViewmodel.transactions.collectLatest {
+                transactionsAdapter.submitList(it)
             }
         }
 
-        val filterButton = binding.filterBtn
-        binding.transactionsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                if (dy > 0 && filterButton.isShown) {
-                    filterButton.hide()
-                } else if (dy < 0 && !filterButton.isShown) {
-                    filterButton.show()
-                }
-            }
-        })
+//        val filterButton = binding.filterBtn
+//        filterButton.setOnClickListener {
+//            val filterFragment = FilterBottomSheetFragment()
+//            filterFragment.show(parentFragmentManager, "filterBottomSheet")
+//        }
+//        binding.transactionsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//
+//                if (dy > 0 && filterButton.isShown) {
+//                    filterButton.hide()
+//                } else if (dy < 0 && !filterButton.isShown) {
+//                    filterButton.show()
+//                }
+//            }
+//        })
 
 
         return root

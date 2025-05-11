@@ -14,7 +14,9 @@ class CategoryRepository(private val categoryDao: CategoryDao) {
         return categoryDao.getById(id)
     }
 
-
+    suspend fun setPercent(id: Int, value: Int){
+        categoryDao.setPercent(id, value)
+    }
 
     suspend fun insertCategory(category: Category) {
         categoryDao.insertAll(category)
